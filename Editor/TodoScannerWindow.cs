@@ -16,7 +16,7 @@ namespace TodoScanner.Editor
         private Vector2 _sidebarScroll;
         private Vector2 _mainAreaScroll;
         private string _currentFilterTag = string.Empty;
-        private TodoEntry[] _entriesToShow = new TodoEntry[] { };
+        private TodoEntry[] _asmTodos = new TodoEntry[] { };
         private const string TodoCache = "todo_cache";
 
         /// <summary>
@@ -129,13 +129,13 @@ namespace TodoScanner.Editor
             if (string.IsNullOrEmpty(_searchString) == false)
             {
                 _currentFilterTag = string.Empty;
-                var etmp = _entriesToShow;
-                _entriesToShow = etmp.Where(e => e.Text.Contains(_searchString)).ToArray();
+                var tmp = _asmTodos;
+                _asmTodos = tmp.Where(e => e.Text.Contains(_searchString)).ToArray();
             }
-            else if (_entries.ContainsKey(_currentFilterTag) == false)
+            else if (_todoCache.ContainsAssembly(_currentFilterTag) == false)
                 GetAllFiltered();
             else if (_todoCache.IsActive(_currentFilterTag))
-                _entriesToShow = _entries[_currentFilterTag].ToArray();
+                _asmTodos = _entries[_currentFilterTag].ToArray();
         }
 
         private void GetAllFiltered()
@@ -148,7 +148,7 @@ namespace TodoScanner.Editor
             }
 
             _currentFilterTag = string.Empty;
-            _entriesToShow = all.ToArray();
+            _asmTodos = all.ToArray();
         }
 
         private string SearchField(string searchStr, params GUILayoutOption[] options)
@@ -167,12 +167,6 @@ namespace TodoScanner.Editor
 
         private void OnGUI()
         {
-            /*if (_todoCache == null)
-            {
-                GUILayout.Label("No data loaded", EditorStyles.centeredGreyMiniLabel);
-                return;
-            }*/
-
             CreateStyles();
             Toolbar();
             using (new HorizontalBlock())
@@ -201,7 +195,7 @@ namespace TodoScanner.Editor
             using (new VerticalBlock(GUI.skin.box, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
             {
                 using (new ScrollviewBlock(ref _mainAreaScroll))
-                    for (var i = 0; i < _entriesToShow.Length; i++)
+                    for (var i = 0; i < _asmTodos.Length; i++)
                         EntryLabel(i);
             }
         }
@@ -244,7 +238,7 @@ namespace TodoScanner.Editor
         {
             using (new VerticalBlock(EditorStyles.helpBox))
             {
-                var entry = _entriesToShow[index];
+                var entry = _asmTodos[index];
                 GUILayout.Space(4f);
                 using (new HorizontalBlock())
                 {
