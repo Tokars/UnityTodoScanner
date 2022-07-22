@@ -1,6 +1,39 @@
-﻿namespace Todo
+﻿using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+
+namespace TodoScanner.Editor.Core
 {
-	using UnityEngine;
+	[System.Serializable]
+    public class TodoAssemblyEntry
+    {
+        [SerializeField] private string assemblyName = default;
+        [SerializeField] private List<TodoEntry> entries = null;
+        [SerializeField] private bool active;
+
+        public bool Active
+        {
+            get => active;
+            set => active = value;
+        }
+
+        public string AssemblyName
+        {
+            get => assemblyName;
+            set => assemblyName = value;
+        }
+
+        public List<TodoEntry> Entries
+        {
+            get => entries;
+            set => entries = value;
+        }
+
+        public TodoAssemblyEntry()
+        {
+        }
+    }
+
 
 	[System.Serializable]
 	public class TodoEntry
@@ -14,15 +47,18 @@
 		public string PathToShow;
 
 		public TodoEntry(string text, string note, string tag, string file, int line)
-		{
+        {
+            if (text.StartsWith(":"))
+                text = text.Replace(":", "");
+
 			Text = text;
 			Note = note;
 			Tag = tag;
 			File = file;
 			Line = line;
 
-			PathToShow = File.Remove(0, Application.dataPath.Length - 6).Replace("\\", "/") + "(" + Line + ")";
-		}
+            PathToShow = Path.GetFileName(File.Replace("\\", "/"));
+        }
 
 		public override bool Equals(object obj)
 		{

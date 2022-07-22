@@ -1,13 +1,10 @@
-﻿namespace Todo
-{
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.IO;
-	using System.Linq;
-	using System.Text.RegularExpressions;
-	using UnityEngine;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
+namespace TodoScanner.Editor.Core
+{
 	public class ScriptsParser
 	{
 		private string _filePath;
@@ -31,10 +28,10 @@
 			var temp = new List<TodoEntry>();
 			foreach(var tag in _tags)
 			{
-				var matches = Regex.Matches(_text, string.Format(@"(?<=\W|^)//(\s?{0})(.*)", tag));
+				var matches = Regex.Matches(_text, string.Format(@"(?<=\W|^)\/\/(\s?(?i){0}(?-i))(:?)(.*)", tag));
 				temp.AddRange(
 					from Match match in matches
-					let text = match.Groups[2].Value
+					let text = match.Groups[3].Value.Trim()
 					let line = IndexToLine(match.Index)
 					select new TodoEntry(text, "", tag, _filePath, line));
 			}

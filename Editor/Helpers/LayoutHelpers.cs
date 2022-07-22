@@ -1,8 +1,8 @@
-﻿namespace Todo.Utils
-{
-	using System;
-	using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+namespace TodoScanner.Editor.Helpers
+{
 	public class VerticalBlock : IDisposable
 	{
 		public VerticalBlock(params GUILayoutOption[] options)

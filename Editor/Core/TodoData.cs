@@ -1,10 +1,10 @@
-﻿namespace Todo
-{
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
+namespace TodoScanner.Editor.Core
+{
 	[CreateAssetMenu(menuName = "ToDo Manager/NoteList")]
 	[Serializable]
 	public class TodoData : ScriptableObject
