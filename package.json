@@ -7,6 +7,7 @@
   "publishConfig": {
     "registry": ""
   },
+  "documentationUrl": "https://github.com/Tokars/UnityTodoScanner#readme",
   "samples": [],
   "author": {
     "name": "Oleksandr Tokar",
